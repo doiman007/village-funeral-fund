@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>กองทุนฌาปณกิจ หมู่บ้านทรัพย์สมบูรณ์</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<style>
+:root{--primary:#16a34a;--primary-dark:#15803d;--primary-light:#dcfce7;--danger:#dc2626;--danger-light:#fee2e2;--warning:#f59e0b;--blue:#3b82f6;--blue-light:#dbeafe;--bg:#f8fafc;--card:#fff;--text:#0f172a;--text-muted:#64748b;--border:#e2e8f0;--radius:12px;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);--shadow-lg:0 10px 15px -3px rgba(0,0,0,.1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.5}
+.header{background:var(--card);padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.header .logo{width:44px;height:44px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff}
+.header h1{font-size:18px;font-weight:600}.header .subtitle{font-size:13px;color:var(--text-muted)}
+.nav-tabs{background:var(--card);padding:0 24px;display:flex;gap:4px;border-bottom:1px solid var(--border);overflow-x:auto}
+.tab-btn{padding:14px 16px;border:none;background:none;cursor:pointer;font-family:inherit;font-size:14px;color:var(--text-muted);border-bottom:3px solid transparent;white-space:nowrap;transition:all .2s}
+.tab-btn:hover{color:var(--primary)}.tab-btn.active{color:var(--primary);border-color:var(--primary);font-weight:600}
+.main{padding:24px;max-width:1200px;margin:0 auto}
+.tab-content{display:none}.tab-content.active{display:block}
+h2{font-size:18px;font-weight:600;margin-bottom:16px}h3{font-size:16px;font-weight:600;margin-bottom:12px}h4{font-size:15px;font-weight:600}
+.card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:20px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:20px}
+.stat-card{background:var(--card);padding:20px;border-radius:var(--radius);box-shadow:var(--shadow)}
+.stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px}
+.stat-label{color:var(--text-muted);font-size:13px;margin-bottom:4px}.stat-value{font-size:22px;font-weight:700}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:12px;font-size:13px;color:var(--text-muted);font-weight:600;border-bottom:2px solid var(--border);background:#f8fafc}
+td{padding:12px;border-bottom:1px solid var(--border);font-size:14px}tr:hover td{background:#f8fafc}
+.btn{padding:9px 16px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-dark)}
+.btn-blue{background:var(--blue);color:#fff}.btn-blue:hover{background:#2563eb}
+.btn-outline{background:#fff;color:var(--text);border:1px solid var(--border)}.btn-outline:hover{background:#f8fafc}
+.btn-danger{background:var(--danger);color:#fff}.btn-danger:hover{background:#b91c1c}
+.btn-sm{padding:5px 10px;font-size:13px}.btn-lg{padding:12px 20px;font-size:15px}.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-group{display:flex;gap:8px;flex-wrap:wrap}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.toolbar input[type="text"],.toolbar input[type="month"]{max-width:250px}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500}
+.badge-income,.badge-active,.badge-paid{background:var(--primary-light);color:var(--primary-dark)}
+.badge-expense,.badge-deceased{background:var(--danger-light);color:#991b1b}
+.badge-unpaid,.badge-collecting{background:#fef3c7;color:#92400e}
+.badge-completed{background:#e0e7ff;color:#3730a3}
+.badge-group{background:var(--blue-light);color:#1e40af;font-weight:600}
+.text-income{color:var(--primary-dark);font-weight:600}.text-expense{color:var(--danger);font-weight:600}
+.text-blue{color:#1e40af;font-weight:600}.text-muted{color:var(--text-muted)}
+.empty{text-align:center;padding:40px;color:var(--text-muted)}
+.code-badge{display:inline-block;padding:3px 10px;background:#f0fdf4;color:var(--primary-dark);border-radius:6px;font-family:'Courier New',monospace;font-size:13px;font-weight:700;border:1px solid #bbf7d0}
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:16px}
+.modal-overlay.active{display:flex}
+.modal{background:#fff;border-radius:var(--radius);padding:24px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modal h3{margin-bottom:20px}
+.form-group{margin-bottom:16px}.form-group label{display:block;margin-bottom:6px;font-weight:500;font-size:14px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;color:var(--text);background:#fff}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(22,163,74,.1)}
+input[readonly]{background:#f8fafc;color:var(--text-muted);cursor:not-allowed;font-family:'Courier New',monospace;font-weight:700;letter-spacing:1px}
+.form-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+.toast{position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:8px;color:#fff;z-index:2000;font-size:14px;box-shadow:var(--shadow-lg);animation:slideIn .3s ease;max-width:90vw}
+.toast-success{background:var(--primary)}.toast-error{background:var(--danger)}.toast-info{background:#1e40af}
+@keyframes slideIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.summary-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.summary-row:last-child{border-bottom:none;font-weight:600;font-size:16px;padding-top:12px}
+.info-box{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px;font-size:14px;color:#166534;margin-bottom:16px}
+.info-box.warn{background:#fffbeb;border-color:#fde68a;color:#92400e}
+.info-box.danger{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+.info-box.blue{background:#eff6ff;border-color:#bfdbfe;color:#1e40af}
+.member-card{text-align:center;padding:24px;border:2px dashed var(--primary);border-radius:var(--radius);background:#f9fefb}
+.member-card .village{font-size:13px;color:var(--text-muted);margin-bottom:8px}
+.member-card .name{font-size:20px;font-weight:700;margin:6px 0}
+.member-card .code-line{font-size:15px;color:var(--primary-dark);margin-bottom:14px}
+.member-card .code-line strong{font-family:'Courier New',monospace;font-size:18px;letter-spacing:1px}
+.member-card .qr-wrap{display:flex;justify-content:center;margin:12px 0;background:#fff;padding:12px;border-radius:8px}
+.member-card .hint{font-size:11px;color:var(--text-muted);margin-top:8px}
+#qr-reader{width:100%;min-height:240px;background:#0f172a;border-radius:8px;overflow:hidden}
+#qr-reader video{border-radius:8px}
+.scan-hint{font-size:13px;color:var(--text-muted);margin:12px 0;text-align:center}
+.manual-row{display:flex;gap:8px;margin-top:6px}
+.manual-row input{flex:1;font-family:'Courier New',monospace;text-transform:uppercase}
+.progress-bar{height:16px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:8px 0}
+.progress-fill{height:100%;background:var(--primary);transition:width .4s ease;border-radius:20px}
+.progress-fill.blue{background:var(--blue)}
+.progress-label{font-size:13px;color:var(--text-muted);display:flex;justify-content:space-between;margin-bottom:4px}
+.event-header{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:var(--radius);padding:20px;margin-bottom:20px;border:1px solid #bbf7d0}
+.event-header h2{color:var(--primary-dark);margin-bottom:8px}
+.event-meta{font-size:14px;color:#166534;line-height:1.8}
+.event-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:16px 0}
+.event-stat{background:#fff;padding:12px;border-radius:8px;text-align:center;border:1px solid #bbf7d0}
+.event-stat .val{font-size:20px;font-weight:700;color:var(--primary-dark)}
+.event-stat .val.blue{color:#1e40af}
+.event-stat .lbl{font-size:12px;color:var(--text-muted)}
+.family-list-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);gap:8px}
+.family-list-item:last-child{border-bottom:none}
+.family-list-item .fam-info{flex:1;min-width:0}
+.family-list-item .fam-code{font-family:'Courier New',monospace;font-weight:700;color:var(--primary-dark);font-size:13px}
+.family-list-item .fam-name{font-size:14px}
+.family-list-item .fam-detail{font-size:12px;color:var(--text-muted)}
+.family-list-item .paid-time{font-size:12px;color:var(--text-muted);text-align:right}
+.subtabs{display:flex;gap:4px;margin-bottom:16px;background:#fff;border-radius:10px;padding:4px;box-shadow:var(--shadow)}
+.subtab{flex:1;padding:10px 12px;border:none;background:transparent;cursor:pointer;font-family:inherit;font-size:14px;color:var(--text-muted);border-radius:8px;transition:all .2s;white-space:nowrap}
+.subtab:hover{background:#f8fafc;color:var(--text)}.subtab.active{background:var(--primary);color:#fff;font-weight:600}
+.workday-card{border:1px solid var(--border);border-radius:10px;margin-bottom:12px;overflow:hidden}
+.workday-header{background:#f8fafc;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;cursor:pointer}
+.workday-header:hover{background:#f1f5f9}.workday-header.active{background:var(--primary-light);border-bottom:1px solid #bbf7d0}
+.workday-header h4{font-size:15px;margin-bottom:4px}
+.workday-meta{font-size:13px;color:var(--text-muted)}.workday-meta .badge{margin-right:4px}
+.workday-body{padding:0;display:none}.workday-body.open{display:block}
+.workday-attend-row{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);gap:8px}
+.workday-attend-row:last-child{border-bottom:none}.workday-attend-row.present{background:#f0fdf4}
+.workday-attend-row .fam-block{flex:1;min-width:0}
+.workday-attend-row .fam-block .name{font-weight:500}
+.workday-attend-row .fam-block .code{font-family:'Courier New',monospace;font-size:12px;color:var(--primary-dark)}
+.check-btn{min-width:110px;justify-content:center}
+.group-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:12px}
+.group-cell{padding:10px;border:1px solid var(--border);border-radius:8px;text-align:center;background:#fff}
+.group-cell .g-num{font-weight:700;color:#1e40af;margin-bottom:4px}
+.group-cell .g-count{font-size:13px;color:var(--text-muted)}
+.group-cell .g-fams{font-size:12px;color:var(--text);margin-top:6px;text-align:left;max-height:80px;overflow-y:auto}
+.scan-progress{background:var(--primary-light);padding:12px;border-radius:8px;margin-bottom:12px;text-align:center}
+.scan-progress .big{font-size:22px;font-weight:700;color:var(--primary-dark)}
+.scan-progress .sub{font-size:13px;color:#166534}
+.recent-scan{font-size:13px;padding:8px;background:#f0fdf4;border-radius:6px;margin-top:8px}
+@media print{.nav-tabs,.toolbar,.btn,.header .logo,.no-print,.subtabs{display:none!important}.main{padding:0}.tab-content{display:none!important}.tab-content.active{display:block!important}}
+@media(max-width:640px){.header{padding:12px 16px}.header h1{font-size:16px}.main{padding:16px}.nav-tabs{padding:0 16px}th,td{padding:8px;font-size:13px}.modal{padding:18px}.event-stats{grid-template-columns:1fr 1fr}.subtab{font-size:12px;padding:8px 6px}.workday-attend-row .check-btn{min-width:auto;padding:6px 10px;font-size:13px}.group-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">🕊️</div>
+  <div>
+    <h1>กองทุนฌาปณกิจ หมู่บ้านทรัพย์สมบูรณ์</h1>
+    <div class="subtitle">ระบบจัดการเงินและงานเวรฌาปณกิจ (คิดเงินตามจำนวนสมาชิก)</div>
+  </div>
+</header>
+
+<nav class="nav-tabs">
+  <button class="tab-btn active" data-tab="dashboard">📊 แดชบอร์ด</button>
+  <button class="tab-btn" data-tab="families">🏠 ครอบครัว</button>
+  <button class="tab-btn" data-tab="members">👥 สมาชิก</button>
+  <button class="tab-btn" data-tab="events">🕊️ งานฌาปณกิจ</button>
+  <button class="tab-btn" data-tab="groups">👷 กลุ่มเวร</button>
+  <button class="tab-btn" data-tab="reports">📈 รายงาน</button>
+  <button class="tab-btn" data-tab="settings">⚙️ ตั้งค่า</button>
+</nav>
+
+<main class="main">
+
+<section id="tab-dashboard" class="tab-content active">
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-icon" style="background:var(--primary-light);color:var(--primary-dark)">🏠</div><div class="stat-label">ครอบครัวในกองทุน</div><div class="stat-value" id="stat-families">0</div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:#dbeafe;color:#1e40af">💎</div><div class="stat-label">เงินกองทุนคงเหลือ</div><div class="stat-value" id="stat-balance">0 บาท</div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:#dcfce7;color:#15803d">📥</div><div class="stat-label">รายรับเดือนนี้</div><div class="stat-value" id="stat-income">0 บาท</div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:#fee2e2;color:#991b1b">📤</div><div class="stat-label">รายจ่ายเดือนนี้</div><div class="stat-value" id="stat-expense">0 บาท</div></div>
+  </div>
+  <div class="card" id="active-events-card" style="display:none">
+    <h2>🕊️ งานฌาปณกิจที่กำลังดำเนินการ</h2>
+    <div id="active-events-list"></div>
+  </div>
+  <div class="card"><h2>รายการล่าสุด (10 รายการ)</h2><div class="table-wrap"><table id="recent-txns"></table></div></div>
+</section>
+
+<section id="tab-families" class="tab-content">
+  <div class="toolbar">
+    <input type="text" id="search-family" placeholder="🔍 ค้นหาชื่อครอบครัว/รหัส/กลุ่ม...">
+    <div class="btn-group">
+      <button class="btn btn-outline" onclick="printAllFamilyCards()">🖨️ พิมพ์บัตร QR ทั้งหมด</button>
+      <button class="btn btn-primary" onclick="openFamilyModal()">➕ เพิ่มครอบครัว</button>
+    </div>
+  </div>
+  <div class="card"><div class="table-wrap"><table id="family-table"></table></div></div>
+</section>
+
+<section id="tab-members" class="tab-content">
+  <div class="toolbar">
+    <input type="text" id="search-member" placeholder="🔍 ค้นหาชื่อสมาชิก...">
+    <button class="btn btn-primary" onclick="openMemberModal()">➕ เพิ่มสมาชิก</button>
+  </div>
+  <div class="card"><div class="table-wrap"><table id="member-table"></table></div></div>
+</section>
+
+<section id="tab-events" class="tab-content">
+  <div id="event-list-view">
+    <div class="toolbar"><button class="btn btn-primary btn-lg" onclick="openDeathModal()">🕊️ แจ้งเสียชีวิต / เปิดงานฌาปณกิจ</button></div>
+    <div class="card"><div class="table-wrap"><table id="event-table"></table></div></div>
+  </div>
+  <div id="event-detail-view" style="display:none">
+    <button class="btn btn-outline" onclick="backToEventList()" style="margin-bottom:16px">← กลับรายการ</button>
+    <div id="event-detail-content"></div>
+  </div>
+</section>
+
+<section id="tab-groups" class="tab-content">
+  <div class="toolbar">
+    <div class="btn-group">
+      <button class="btn btn-blue" onclick="autoDistributeFamilies()">🎲 กระจายกลุ่มอัตโนมัติ</button>
+      <button class="btn btn-outline" onclick="exportGroupsCSV()">📥 ส่งออกกลุ่ม CSV</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2>ภาพรวมกลุ่มเวร</h2>
+    <p class="text-muted" style="margin-bottom:12px">ครอบครัวถูกแบ่งเป็น <strong id="group-count-label">15</strong> กลุ่ม เพื่อหมุนเวียนกันไปทำงานที่งานศพ</p>
+    <div class="group-grid" id="group-grid"></div>
+  </div>
+</section>
+
+<section id="tab-reports" class="tab-content">
+  <div class="toolbar">
+    <div class="btn-group">
+      <input type="month" id="report-month">
+      <button class="btn btn-outline" onclick="exportCSV()">📥 ส่งออก CSV</button>
+      <button class="btn btn-outline" onclick="window.print()">🖨️ พิมพ์</button>
+    </div>
+  </div>
+  <div class="card"><h3>สรุปประจำเดือน</h3><div id="report-summary"></div></div>
+  <div class="card"><h3>รายละเอียดรายรับ–รายจ่าย</h3><div class="table-wrap"><table id="report-detail"></table></div></div>
+</section>
+
+<section id="tab-settings" class="tab-content">
+  <div class="card">
+    <h2>ตั้งค่ากองทุน</h2>
+    <form id="settings-form">
+      <div class="form-group"><label>ชื่อกองทุน</label><input type="text" name="fundName"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group"><label>เก็บเงินคนละ (บาท)</label><input type="number" name="amountPerMember" min="0" step="1"></div>
+        <div class="form-group"><label>เงินช่วยเหลือเมื่อเสียชีวิต (บาท)</label><input type="number" name="payoutAmount" min="0" step="1"></div>
+        <div class="form-group"><label>จำนวนกลุ่มเวร</label><input type="number" name="groupCount" min="1" max="50" step="1"></div>
+        <div class="form-group"><label>จำนวนวันงานศพ (ค่าเริ่มต้น)</label><input type="number" name="defaultWorkDays" min="1" max="30" step="1"></div>
+      </div>
+      <button type="submit" class="btn btn-primary">💾 บันทึกการตั้งค่า</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>จัดการข้อมูล</h2>
+    <div class="btn-group">
+      <button class="btn btn-outline" onclick="seedData()">🌱 โหลดข้อมูลตัวอย่าง</button>
+      <button class="btn btn-danger" onclick="resetData()">🗑️ ล้างข้อมูลทั้งหมด</button>
+    </div>
+    <p class="text-muted" style="margin-top:12px;font-size:13px">ข้อมูลถูกเก็บใน localStorage — แนะนำ Export CSV สำรองเป็นระยะ</p>
+  </div>
+</section>
+
+</main>
+
+<div class="modal-overlay" id="modal-overlay"><div class="modal" id="modal-content"></div></div>
+
+<script>
+// ============ UTILITIES ============
+const THAI_MONTHS = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+const THAI_MONTHS_SHORT = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const fmt = n => Number(n||0).toLocaleString('th-TH',{minimumFractionDigits:0,maximumFractionDigits:2});
+const fmtBaht = n => fmt(n) + ' บาท';
+const fmtDate = iso => { if(!iso) return '-'; const [y,m,d] = iso.split('-'); return `${parseInt(d)} ${THAI_MONTHS_SHORT[parseInt(m)-1]} ${parseInt(y)+543}`; };
+const fmtDateTime = iso => { if(!iso) return '-'; const d = new Date(iso); return `${d.getDate()} ${THAI_MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()+543} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`; };
+const fmtMonth = s => { const [y,m] = s.split('-'); return `${THAI_MONTHS[parseInt(m)-1]} ${parseInt(y)+543}`; };
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const todayLocal = () => { const d = new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); };
+const currentMonth = () => todayLocal().slice(0,7);
+const escapeHtml = s => String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const addDays = (iso, n) => { const d = new Date(iso); d.setDate(d.getDate()+n); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); };
+
+// ============ STORAGE ============
+const KEY = { families:'vs_families', members:'vs_members', events:'vs_events', txns:'vs_txns', settings:'vs_settings' };
+const load = (k,d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } };
+const save = (k,v) => localStorage.setItem(k, JSON.stringify(v));
+
+let families = load(KEY.families, []);
+let members = load(KEY.members, []);
+let events = load(KEY.events, []);
+let txns = load(KEY.txns, []);
+let settings = load(KEY.settings, { fundName:'หมู่บ้านทรัพย์สมบูรณ์', amountPerMember:20, payoutAmount:5000, groupCount:15, defaultWorkDays:3 });
+// Migration from old key
+if (settings.amountPerMember == null && settings.amountPerFamily != null) {
+  settings.amountPerMember = settings.amountPerFamily;
+  delete settings.amountPerFamily;
+}
+if (!settings.amountPerMember) settings.amountPerMember = 20;
+if (!settings.groupCount) settings.groupCount = 15;
+if (!settings.defaultWorkDays) settings.defaultWorkDays = 3;
+
+const persist = () => { save(KEY.families, families); save(KEY.members, members); save(KEY.events, events); save(KEY.txns, txns); save(KEY.settings, settings); };
+const getFamily = id => families.find(f => f.id === id);
+const getMember = id => members.find(m => m.id === id);
+const getEvent = id => events.find(e => e.id === id);
+const familyDisplay = id => { const f = getFamily(id); return f ? `${f.code} (${f.headName})` : '(ไม่พบ)'; };
+const balance = () => txns.reduce((s,t) => s + (t.type==='income' ? t.amount : -t.amount), 0);
+
+// ============ ★ KEY: MEMBER COUNT & PAYMENT CALC ============
+function getFamilyActiveMembers(familyId) {
+  return members.filter(m => m.familyId === familyId && m.status === 'active');
+}
+function getFamilyActiveCount(familyId) {
+  return getFamilyActiveMembers(familyId).length;
+}
+function getEventRatePerMember(e) {
+  if (e.amountPerMember != null) return e.amountPerMember;
+  return settings.amountPerMember; // fallback
+}
+// Amount this family should pay for this event = memberCount × rate
+function getFamilyPaymentAmount(familyId, e) {
+  return getFamilyActiveCount(familyId) * getEventRatePerMember(e);
+}
+// Total expected for the event (all eligible families)
+function calculateTotalExpected(e) {
+  return eligibleFamiliesForEvent(e).reduce((sum, f) => sum + getFamilyPaymentAmount(f.id, e), 0);
+}
+// Total collected so far
+function calculateTotalCollected(e) {
+  return e.paidFamilyIds.reduce((sum, fid) => sum + getFamilyPaymentAmount(fid, e), 0);
+}
+// Eligible families = all except deceased's, and only those with at least 1 active member
+function eligibleFamiliesForEvent(e) {
+  return families.filter(f => f.id !== e.deceasedFamilyId && getFamilyActiveCount(f.id) > 0);
+}
+
+// ============ CODE GENERATORS ============
+function nextFamilyNumber() {
+  let max = 0;
+  families.forEach(f => { const m = (f.code||'').match(/VSM-F-(\d+)/); if (m) max = Math.max(max, parseInt(m[1])); });
+  return max + 1;
+}
+function generateFamilyCode() { return `VSM-F-${String(nextFamilyNumber()).padStart(4, '0')}`; }
+function suggestNextGroupId() {
+  const gc = settings.groupCount || 15;
+  const counts = {}; for (let i = 1; i <= gc; i++) counts[i] = 0;
+  families.forEach(f => { if (f.groupId && counts[f.groupId] !== undefined) counts[f.groupId]++; });
+  let minG = 1, minC = Infinity;
+  for (let i = 1; i <= gc; i++) if (counts[i] < minC) { minC = counts[i]; minG = i; }
+  return minG;
+}
+
+// ============ GROUP DISTRIBUTION ============
+function distributeGroups(groupCount, dayCount) {
+  const groups = Array.from({length: groupCount}, (_, i) => i + 1);
+  if (dayCount <= 0) return [groups];
+  const perDay = Math.floor(groupCount / dayCount);
+  const rem = groupCount % dayCount;
+  const result = []; let cursor = 0;
+  for (let d = 0; d < dayCount; d++) {
+    const count = perDay + (d < rem ? 1 : 0);
+    result.push(groups.slice(cursor, cursor + count));
+    cursor += count;
+  }
+  return result;
+}
+function ensureEventWorkDays(e) {
+  if (!e.workDays || !Array.isArray(e.workDays) || !e.workDays.length) {
+    const gc = settings.groupCount || 15;
+    const dc = settings.defaultWorkDays || 3;
+    const dist = distributeGroups(gc, dc);
+    e.workDays = dist.map((ids, idx) => ({ index: idx, date: addDays(e.deathDate, idx), groupIds: ids }));
+    e.attendance = e.attendance || {};
+    persist();
+  }
+}
+function autoDistributeFamilies() {
+  if (!families.length) return toast('ยังไม่มีครอบครัว', 'error');
+  if (!confirm(`กระจายครอบครัวทั้ง ${families.length} ครอบครัวลง ${settings.groupCount} กลุ่มแบบสุ่ม?`)) return;
+  const shuffled = [...families].sort(() => Math.random() - 0.5);
+  shuffled.forEach((f, i) => { f.groupId = (i % settings.groupCount) + 1; });
+  persist(); renderAll();
+  toast('กระจายกลุ่มสำเร็จ');
+}
+
+// ============ TOAST & MODAL ============
+function toast(msg, type='success') {
+  const el = document.createElement('div');
+  el.className = `toast toast-${type}`;
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 2800);
+}
+const modalOverlay = document.getElementById('modal-overlay');
+const modalContent = document.getElementById('modal-content');
+let scanner = null, activeScanEventId = null, activeScanMode = 'payment';
+function openModal(html) { modalContent.innerHTML = html; modalOverlay.classList.add('active'); }
+function closeModal() { stopScanner(); modalOverlay.classList.remove('active'); modalContent.innerHTML = ''; activeScanEventId = null; }
+function stopScanner() {
+  if (!scanner) return;
+  const s = scanner; scanner = null;
+  s.stop().then(() => { try { s.clear(); } catch(e){} }).catch(() => {});
+}
+modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
+
+// ============ NAV ============
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    renderAll();
+  });
+});
+
+// ============ FAMILIES ============
+function renderFamilies() {
+  const q = (document.getElementById('search-family')?.value || '').toLowerCase().trim();
+  const list = families.filter(f =>
+    !q || f.headName.toLowerCase().includes(q) || (f.phone||'').includes(q) ||
+    (f.code||'').toLowerCase().includes(q) || (f.groupId && String(f.groupId) === q)
+  );
+  const rows = list.length
+    ? list.map(f => {
+        const memCount = members.filter(m => m.familyId === f.id).length;
+        const activeCount = getFamilyActiveCount(f.id);
+        const perEvent = activeCount * settings.amountPerMember;
+        return `
+          <tr>
+            <td><span class="code-badge">${f.code}</span></td>
+            <td><strong>${escapeHtml(f.headName)}</strong></td>
+            <td>${f.groupId ? `<span class="badge badge-group">กลุ่ม ${f.groupId}</span>` : '<span class="text-muted">-</span>'}</td>
+            <td>${escapeHtml(f.address||'-')}</td>
+            <td>${escapeHtml(f.phone||'-')}</td>
+            <td>${activeCount}/${memCount} คน<br><small class="text-muted">=${fmtBaht(perEvent)}/ครั้ง</small></td>
+            <td class="btn-group">
+              <button class="btn btn-outline btn-sm" onclick="showFamilyQR('${f.id}')">📱 QR</button>
+              <button class="btn btn-outline btn-sm" onclick="openFamilyModal('${f.id}')">แก้ไข</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteFamily('${f.id}')">ลบ</button>
+            </td>
+          </tr>`;
+      }).join('')
+    : '<tr><td colspan="7" class="empty">ยังไม่มีครอบครัว</td></tr>';
+  document.getElementById('family-table').innerHTML =
+    `<thead><tr><th>รหัส</th><th>หัวหน้าครัวเรือน</th><th>กลุ่ม</th><th>ที่อยู่</th><th>โทร</th><th>สมาชิก/ยอดจ่าย</th><th>จัดการ</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+function openFamilyModal(id) {
+  const f = id ? getFamily(id) : { code: generateFamilyCode(), headName:'', address:'', phone:'', groupId: suggestNextGroupId() };
+  const groupOpts = Array.from({length: settings.groupCount}, (_, i) => i+1).map(g =>
+    `<option value="${g}" ${f.groupId===g?'selected':''}>กลุ่ม ${g}</option>`).join('');
+  openModal(`
+    <h3>${id ? 'แก้ไขครอบครัว' : 'เพิ่มครอบครัวใหม่'}</h3>
+    <form id="family-form">
+      <input type="hidden" name="id" value="${id||''}">
+      <div class="form-group"><label>รหัสครอบครัว (สำหรับ QR)</label><input type="text" name="code" value="${f.code}" readonly></div>
+      <div class="form-group"><label>ชื่อหัวหน้าครัวเรือน *</label><input type="text" name="headName" value="${escapeHtml(f.headName||'')}" required autofocus></div>
+      <div class="form-group"><label>กลุ่มเวร *</label><select name="groupId" required>${groupOpts}</select></div>
+      <div class="form-group"><label>ที่อยู่</label><input type="text" name="address" value="${escapeHtml(f.address||'')}"></div>
+      <div class="form-group"><label>เบอร์โทร</label><input type="text" name="phone" value="${escapeHtml(f.phone||'')}"></div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" onclick="closeModal()">ยกเลิก</button>
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+      </div>
+    </form>
+  `);
+  document.getElementById('family-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const fm = e.target;
+    const data = { headName: fm.headName.value.trim(), groupId: parseInt(fm.groupId.value), address: fm.address.value.trim(), phone: fm.phone.value.trim() };
+    if (!data.headName) return toast('กรุณากรอกชื่อหัวหน้าครัวเรือน', 'error');
+    if (id) { Object.assign(getFamily(id), data); toast('แก้ไขสำเร็จ'); }
+    else { families.push({ id: uid(), code: fm.code.value, ...data, createdAt: todayLocal() }); toast('เพิ่มสำเร็จ'); }
+    persist(); closeModal(); renderAll();
+  });
+}
+
+function deleteFamily(id) {
+  const fam = getFamily(id);
+  const memCount = members.filter(m => m.familyId === id).length;
+  let msg = `ลบครอบครัว "${fam.headName}" (${fam.code})?\n`;
+  if (memCount) msg += `• สมาชิก ${memCount} คนจะถูกลบด้วย\n`;
+  msg += '\nยืนยัน?';
+  if (!confirm(msg)) return;
+  families = families.filter(f => f.id !== id);
+  members = members.filter(m => m.familyId !== id);
+  persist(); renderAll(); toast('ลบแล้ว');
+}
+
+// ============ GROUPS ============
+function renderGroups() {
+  const gc = settings.groupCount || 15;
+  document.getElementById('group-count-label').textContent = gc;
+  const cells = [];
+  for (let g = 1; g <= gc; g++) {
+    const fams = families.filter(f => f.groupId === g);
+    const totalPeople = fams.reduce((s,f) => s + getFamilyActiveCount(f.id), 0);
+    cells.push(`
+      <div class="group-cell">
+        <div class="g-num">กลุ่ม ${g}</div>
+        <div class="g-count">${fams.length} ครอบครัว / ${totalPeople} คน</div>
+        ${fams.length ? `<div class="g-fams">${fams.map(f => `• ${escapeHtml(f.headName)}`).join('<br>')}</div>` : '<div class="g-fams text-muted" style="text-align:center">— ว่าง —</div>'}
+      </div>`);
+  }
+  document.getElementById('group-grid').innerHTML = cells.join('');
+}
+
+function exportGroupsCSV() {
+  const headers = ['กลุ่ม','รหัสครอบครัว','หัวหน้าครัวเรือน','จำนวนสมาชิก','เบอร์โทร'];
+  const rows = [];
+  for (let g = 1; g <= settings.groupCount; g++) {
+    families.filter(f => f.groupId === g).forEach(f => {
+      rows.push([g, f.code, f.headName, getFamilyActiveCount(f.id), f.phone || '']);
+    });
+  }
+  const csv = '\ufeff' + [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = `กลุ่มเวร-${todayLocal()}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+  toast('ส่งออก CSV สำเร็จ');
+}
+
+// ============ QR FAMILY ============
+function showFamilyQR(id) {
+  const f = getFamily(id);
+  if (!f) return;
+  const count = getFamilyActiveCount(id);
+  const perEvent = count * settings.amountPerMember;
+  openModal(`
+    <h3>บัตรครอบครัว</h3>
+    <div class="member-card">
+      <div class="village">กองทุนฌาปณกิจ ${escapeHtml(settings.fundName)}</div>
+      <div class="name">${escapeHtml(f.headName)}</div>
+      <div class="code-line">รหัสครอบครัว: <strong>${f.code}</strong></div>
+      ${f.groupId ? `<div style="font-size:13px;color:#1e40af;margin-bottom:6px">กลุ่มเวรที่ ${f.groupId}</div>` : ''}
+      <div style="font-size:13px;color:#166534;margin-bottom:10px">สมาชิก ${count} คน × ${settings.amountPerMember} = ${fmtBaht(perEvent)}/ครั้ง</div>
+      <div class="qr-wrap"><div id="family-qrcode"></div></div>
+      <div class="hint">สแกน QR นี้เพื่อจ่ายเงิน / เช็คชื่อเวร</div>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-outline" onclick="closeModal()">ปิด</button>
+      <button type="button" class="btn btn-primary" onclick="printFamilyCard('${id}')">🖨️ พิมพ์บัตร</button>
+    </div>
+  `);
+  try {
+    new QRCode(document.getElementById('family-qrcode'), { text: f.code, width: 220, height: 220, colorDark:'#0f172a', colorLight:'#ffffff', correctLevel: QRCode.CorrectLevel.H });
+  } catch (e) {
+    document.getElementById('family-qrcode').innerHTML = `<div style="font-size:60px;font-weight:800;color:#15803d;">${f.code}</div>`;
+  }
+}
+
+function buildCardHtml(f, qrSrc) {
+  const count = getFamilyActiveCount(f.id);
+  const perEvent = count * settings.amountPerMember;
+  return `<div class="card">
+    <div class="village">กองทุนฌาปณกิจ ${escapeHtml(settings.fundName)}</div>
+    <div class="name">${escapeHtml(f.headName)}</div>
+    <div class="code">รหัสครอบครัว: <strong>${f.code}</strong></div>
+    ${f.groupId ? `<div style="font-size:10px;color:#1e40af;margin-bottom:2mm">กลุ่มเวร ${f.groupId}</div>` : ''}
+    <div style="font-size:9px;color:#166534;margin-bottom:2mm">${count} คน × ${settings.amountPerMember} = ${fmtBaht(perEvent)}</div>
+    ${qrSrc ? `<img src="${qrSrc}">` : `<div style="font-size:28px;font-weight:800;color:#15803d;padding:20px 0">${f.code}</div>`}
+    <div class="hint">สแกนเพื่อจ่ายเงิน / เช็คชื่อเวร</div>
+  </div>`;
+}
+
+function printFamilyCard(id) {
+  const f = getFamily(id); if (!f) return;
+  setTimeout(() => {
+    const wrap = document.getElementById('family-qrcode');
+    const c = wrap.querySelector('canvas'); const i = wrap.querySelector('img');
+    let src = ''; if (c) { try { src = c.toDataURL(); } catch(e){} } if (!src && i) src = i.src;
+    const win = window.open('', '_blank');
+    win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>บัตร ${f.code}</title>
+      <style>@page{size:A6;margin:8mm}body{font-family:'Sarabun',sans-serif;padding:8mm}.card{border:2px dashed #333;padding:8mm;text-align:center;border-radius:4mm}.village{font-size:11px;color:#666}.name{font-size:18px;font-weight:700;margin:3mm 0}.code{font-size:14px;color:#15803d;margin-bottom:3mm}.code strong{font-family:'Courier New',monospace;font-size:17px;letter-spacing:1px}img{width:55mm;height:55mm}.hint{font-size:9px;color:#999;margin-top:2mm}</style>
+      </head><body>${buildCardHtml(f, src)}</body></html>`);
+    win.document.close(); setTimeout(() => { win.focus(); win.print(); }, 400);
+  }, 200);
+}
+
+function printAllFamilyCards() {
+  if (!families.length) return toast('ยังไม่มีครอบครัว', 'error');
+  const temp = document.createElement('div');
+  temp.style.cssText = 'position:absolute;left:-99999px;top:0;';
+  document.body.appendChild(temp);
+  families.forEach(f => {
+    const el = document.createElement('div'); el.id = 'tmpqr-' + f.id; temp.appendChild(el);
+    try { new QRCode(el, { text: f.code, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.H }); } catch(e){}
+  });
+  setTimeout(() => {
+    const cards = families.map(f => {
+      const el = document.getElementById('tmpqr-' + f.id);
+      let src = ''; const c = el.querySelector('canvas'); const i = el.querySelector('img');
+      if (c) { try { src = c.toDataURL(); } catch(e){} } if (!src && i) src = i.src;
+      return buildCardHtml(f, src);
+    }).join('');
+    const win = window.open('', '_blank');
+    win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>บัตรทั้งหมด</title>
+      <style>@page{size:A4;margin:10mm}body{font-family:'Sarabun',sans-serif;padding:5mm}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm}.card{border:2px dashed #333;padding:4mm;text-align:center;border-radius:3mm;page-break-inside:avoid;height:80mm}.village{font-size:9px;color:#666}.name{font-size:13px;font-weight:700;margin:2mm 0;overflow:hidden;height:9mm;display:flex;align-items:center;justify-content:center}.code{font-size:11px;color:#15803d;margin-bottom:1mm}.code strong{font-family:'Courier New',monospace;font-size:12px;letter-spacing:1px}.card img{width:40mm;height:40mm}.hint{font-size:7px;color:#999;margin-top:1mm}</style>
+      </head><body><div class="grid">${cards}</div></body></html>`);
+    win.document.close(); setTimeout(() => { win.focus(); win.print(); }, 800);
+    temp.remove();
+  }, 300);
+}
+
+// ============ MEMBERS ============
+function renderMembers() {
+  const q = (document.getElementById('search-member')?.value || '').toLowerCase().trim();
+  const list = members.filter(m => {
+    if (!q) return true;
+    const f = getFamily(m.familyId);
+    return m.name.toLowerCase().includes(q) || (f?.headName||'').toLowerCase().includes(q) || (f?.code||'').toLowerCase().includes(q);
+  });
+  const rows = list.length
+    ? list.map(m => {
+        const f = getFamily(m.familyId);
+        return `
+          <tr>
+            <td><span class="code-badge">${f?.code||'-'}</span></td>
+            <td>${escapeHtml(f?.headName||'-')}</td>
+            <td>${f?.groupId ? `<span class="badge badge-group">กลุ่ม ${f.groupId}</span>` : '-'}</td>
+            <td><strong>${escapeHtml(m.name)}</strong></td>
+            <td><span class="badge ${m.status==='active'?'badge-active':'badge-deceased'}">${m.status==='active'?'ปกติ':'เสียชีวิต'}</span></td>
+            <td class="btn-group">
+              <button class="btn btn-outline btn-sm" onclick="openMemberModal('${m.id}')">แก้ไข</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteMember('${m.id}')">ลบ</button>
+            </td>
+          </tr>`;
+      }).join('')
+    : '<tr><td colspan="6" class="empty">ยังไม่มีสมาชิก</td></tr>';
+  document.getElementById('member-table').innerHTML =
+    `<thead><tr><th>รหัสครอบครัว</th><th>หัวหน้าครัวเรือน</th><th>กลุ่ม</th><th>สมาชิก</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+function openMemberModal(id) {
+  if (!families.length) return toast('กรุณาเพิ่มครอบครัวก่อน', 'error');
+  const m = id ? getMember(id) : { familyId:'', name:'', status:'active' };
+  const famOpts = families.map(f => `<option value="${f.id}" ${m.familyId===f.id?'selected':''}>${f.code} - ${escapeHtml(f.headName)} (กลุ่ม ${f.groupId||'?'})</option>`).join('');
+  openModal(`
+    <h3>${id?'แก้ไขสมาชิก':'เพิ่มสมาชิกใหม่'}</h3>
+    <form id="member-form">
+      <input type="hidden" name="id" value="${id||''}">
+      <div class="form-group"><label>ครอบครัว *</label><select name="familyId" required><option value="">-- เลือก --</option>${famOpts}</select></div>
+      <div class="form-group"><label>ชื่อ-สกุล *</label><input type="text" name="name" value="${escapeHtml(m.name||'')}" required></div>
+      <div class="form-group">
+        <label>สถานะ</label>
+        <select name="status">
+          <option value="active" ${m.status==='active'?'selected':''}>ปกติ</option>
+          <option value="deceased" ${m.status==='deceased'?'selected':''}>เสียชีวิต</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" onclick="closeModal()">ยกเลิก</button>
+        <button type="submit" class="btn btn-primary">บันทึก</button>
+      </div>
+    </form>
+  `);
+  document.getElementById('member-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const fm = e.target;
+    const data = { familyId: fm.familyId.value, name: fm.name.value.trim(), status: fm.status.value };
+    if (!data.familyId) return toast('กรุณาเลือกครอบครัว', 'error');
+    if (!data.name) return toast('กรุณากรอกชื่อ', 'error');
+    const wasActive = id ? getMember(id).status === 'active' : false;
+    const isNowDeceased = data.status === 'deceased';
+    if (id) { Object.assign(getMember(id), data); toast('แก้ไขสำเร็จ'); }
+    else { members.push({ id: uid(), ...data, createdAt: todayLocal() }); toast('เพิ่มสำเร็จ'); }
+    persist(); closeModal(); renderAll();
+    if (wasActive && isNowDeceased && id) {
+      setTimeout(() => {
+        if (confirm(`สมาชิก "${data.name}" เสียชีวิต\nต้องการเปิดงานฌาปณกิจเลยหรือไม่?`)) openDeathModal(id);
+      }, 300);
+    }
+  });
+}
+
+function deleteMember(id) {
+  if (!confirm('ลบสมาชิกนี้?')) return;
+  members = members.filter(m => m.id !== id);
+  persist(); renderAll(); toast('ลบแล้ว');
+}
+
+// ============ DEATH EVENT ============
+function openDeathModal(preselectMemberId) {
+  const activeMembers = members.filter(m => m.status === 'active');
+  if (!activeMembers.length) return toast('ไม่มีสมาชิกที่ยังมีชีวิต', 'error');
+  let missing = families.filter(f => !f.groupId);
+  if (missing.length) {
+    families.forEach(f => { if (!f.groupId) f.groupId = suggestNextGroupId(); });
+    persist();
+    toast(`กำหนดกลุ่มให้ ${missing.length} ครอบครัวที่ยังไม่มีกลุ่ม`, 'info');
+  }
+  const famOpts = families.map(f => `<option value="${f.id}">${f.code} - ${escapeHtml(f.headName)} (กลุ่ม ${f.groupId})</option>`).join('');
+  let preFamId = '', preMemId = '';
+  if (preselectMemberId) { const m = getMember(preselectMemberId); if (m) { preFamId = m.familyId; preMemId = m.id; } }
+
+  openModal(`
+    <h3>🕊️ แจ้งเสียชีวิต / เปิดงานฌาปณกิจ</h3>
+    <div class="info-box">ระบบจะสร้างงาน + ตารางเวรอัตโนมัติ<br><strong>เก็บเงินคนละ ${settings.amountPerMember} บาท</strong> คูณจำนวนสมาชิกแต่ละครอบครัว</div>
+    <form id="death-form">
+      <div class="form-group"><label>ครอบครัว *</label><select name="familyId" id="death-family" required><option value="">-- เลือก --</option>${famOpts}</select></div>
+      <div class="form-group"><label>สมาชิกที่เสียชีวิต *</label><select name="memberId" id="death-member" required><option value="">-- เลือกครอบครัวก่อน --</option></select></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group"><label>วันที่เสียชีวิต *</label><input type="date" name="deathDate" value="${todayLocal()}" required></div>
+        <div class="form-group"><label>จำนวนวันงานศพ *</label><input type="number" name="workDayCount" value="${settings.defaultWorkDays}" min="1" max="30" required></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group"><label>เก็บเงินคนละ (บาท) *</label><input type="number" name="amountPerMember" value="${settings.amountPerMember}" min="0.01" step="1" required></div>
+        <div class="form-group"><label>เงินช่วยเหลือ (บาท)</label><input type="number" name="payoutAmount" value="${settings.payoutAmount}" min="0" step="1"></div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" onclick="closeModal()">ยกเลิก</button>
+        <button type="submit" class="btn btn-primary">เปิดงานฌาปณกิจ</button>
+      </div>
+    </form>
+  `);
+  const famSel = document.getElementById('death-family');
+  const memSel = document.getElementById('death-member');
+  function updateOpts() {
+    const list = members.filter(m => m.familyId === famSel.value && m.status === 'active');
+    memSel.innerHTML = !list.length
+      ? '<option value="">-- ไม่มีสมาชิก --</option>'
+      : '<option value="">-- เลือก --</option>' + list.map(m => `<option value="${m.id}">${escapeHtml(m.name)}</option>`).join('');
+  }
+  famSel.addEventListener('change', updateOpts);
+  if (preFamId) { famSel.value = preFamId; updateOpts(); if (preMemId) memSel.value = preMemId; }
+
+  document.getElementById('death-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = e.target;
+    const memberId = f.memberId.value;
+    const deathDate = f.deathDate.value;
+    const workDayCount = Math.max(1, parseInt(f.workDayCount.value) || 3);
+    const amountPerMember = parseFloat(f.amountPerMember.value);
+    const payoutAmount = parseFloat(f.payoutAmount.value) || 0;
+    if (!memberId) return toast('กรุณาเลือกสมาชิก', 'error');
+    if (!deathDate) return toast('กรุณาเลือกวันที่', 'error');
+    if (!(amountPerMember > 0)) return toast('จำนวนเงินไม่ถูกต้อง', 'error');
+
+    const member = getMember(memberId);
+    if (!member) return toast('ไม่พบสมาชิก', 'error');
+
+    const gc = settings.groupCount || 15;
+    const dist = distributeGroups(gc, workDayCount);
+    const workDays = dist.map((ids, idx) => ({ index: idx, date: addDays(deathDate, idx), groupIds: ids }));
+
+    const eventId = uid();
+    const event = {
+      id: eventId,
+      deceasedMemberId: memberId,
+      deceasedFamilyId: member.familyId,
+      deceasedName: member.name,
+      deathDate,
+      amountPerMember,
+      payoutAmount,
+      paidFamilyIds: [],
+      attendance: {},
+      workDays,
+      payout: null,
+      status: 'collecting',
+      createdAt: new Date().toISOString()
+    };
+    events.push(event);
+    member.status = 'deceased';
+    member.diedDate = deathDate;
+    persist(); closeModal();
+    toast(`เปิดงานฌาปณกิจ "${member.name}" (เก็บคนละ ${amountPerMember} บาท)`);
+    navigateToEvent(eventId);
+  });
+}
+
+// ============ EVENTS LIST ============
+let currentEventId = null, eventSubTab = 'overview';
+function backToEventList() {
+  currentEventId = null;
+  document.getElementById('event-list-view').style.display = 'block';
+  document.getElementById('event-detail-view').style.display = 'none';
+  renderEvents();
+}
+function navigateToEvent(id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector('.tab-btn[data-tab="events"]').classList.add('active');
+  document.getElementById('tab-events').classList.add('active');
+  openEventDetail(id);
+}
+function openEventDetail(id) { currentEventId = id; eventSubTab = 'overview'; document.getElementById('event-list-view').style.display = 'none'; document.getElementById('event-detail-view').style.display = 'block'; renderEventDetail(); }
+function switchEventSubTab(tab) { eventSubTab = tab; renderEventDetail(); }
+
+function renderEvents() {
+  if (currentEventId) { renderEventDetail(); return; }
+  const sorted = [...events].sort((a,b) => b.createdAt.localeCompare(a.createdAt));
+  const rows = sorted.length
+    ? sorted.map(e => {
+        ensureEventWorkDays(e);
+        const fam = getFamily(e.deceasedFamilyId);
+        const eligible = eligibleFamiliesForEvent(e);
+        const paid = e.paidFamilyIds.length;
+        const total = eligible.length;
+        const payPct = total ? Math.round((paid/total)*100) : 0;
+        const attCount = Object.values(e.attendance||{}).filter(a => a.present).length;
+        const attPct = total ? Math.round((attCount/total)*100) : 0;
+        const collected = calculateTotalCollected(e);
+        const expected = calculateTotalExpected(e);
+        const badge = e.status === 'completed' ? '<span class="badge badge-completed">เสร็จสิ้น</span>' : '<span class="badge badge-collecting">กำลังเก็บ</span>';
+        return `
+          <tr>
+            <td>${fmtDate(e.deathDate)}</td>
+            <td><strong>${escapeHtml(e.deceasedName)}</strong></td>
+            <td>${fam ? `<span class="code-badge">${fam.code}</span>` : '-'}</td>
+            <td><div style="font-size:12px">💰 ${paid}/${total} (${payPct}%)<br><small class="text-muted">${fmtBaht(collected)}/${fmtBaht(expected)}</small></div><div style="font-size:12px;color:#1e40af">🏃 ${attCount}/${total} (${attPct}%)</div></td>
+            <td>${badge}</td>
+            <td class="btn-group">
+              <button class="btn btn-primary btn-sm" onclick="openEventDetail('${e.id}')">ดู</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteEvent('${e.id}')">ลบ</button>
+            </td>
+          </tr>`;
+      }).join('')
+    : '<tr><td colspan="6" class="empty">ยังไม่มีงานฌาปณกิจ</td></tr>';
+  document.getElementById('event-table').innerHTML =
+    `<thead><tr><th>วันที่</th><th>ผู้เสียชีวิต</th><th>ครอบครัว</th><th>ความคืบหน้า</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+// ============ EVENT DETAIL ============
+function renderEventDetail() {
+  const e = getEvent(currentEventId);
+  if (!e) { backToEventList(); return; }
+  ensureEventWorkDays(e);
+  const fam = getFamily(e.deceasedFamilyId);
+  const eligible = eligibleFamiliesForEvent(e);
+  const paid = e.paidFamilyIds.length;
+  const total = eligible.length;
+  const collected = calculateTotalCollected(e);
+  const expected = calculateTotalExpected(e);
+  const pct = total ? Math.round((paid/total)*100) : 100;
+  const attCount = Object.values(e.attendance||{}).filter(a => a.present).length;
+  const attPct = total ? Math.round((attCount/total)*100) : 100;
+  const statusBadge = e.status === 'completed' ? '<span class="badge badge-completed">เสร็จสิ้น</span>' : '<span class="badge badge-collecting">กำลังเก็บเงิน</span>';
+
+  const header = `
+    <div class="event-header">
+      <h2>🕊️ ${escapeHtml(e.deceasedName)} ${statusBadge}</h2>
+      <div class="event-meta">
+        <div>ครอบครัว: <span class="code-badge">${fam?.code||'-'}</span> ${escapeHtml(fam?.headName||'-')} (กลุ่ม ${fam?.groupId||'?'})</div>
+        <div>วันที่เสียชีวิต: ${fmtDate(e.deathDate)} | งานศพ ${e.workDays.length} วัน</div>
+        <div>เก็บเงินคนละ <strong>${fmtBaht(getEventRatePerMember(e))}</strong> | เงินช่วยเหลือ <strong>${fmtBaht(e.payoutAmount)}</strong></div>
+      </div>
+    </div>
+  `;
+  const subtabs = `
+    <div class="subtabs">
+      <button class="subtab ${eventSubTab==='overview'?'active':''}" onclick="switchEventSubTab('overview')">📊 ภาพรวม</button>
+      <button class="subtab ${eventSubTab==='payment'?'active':''}" onclick="switchEventSubTab('payment')">💰 เก็บเงิน</button>
+      <button class="subtab ${eventSubTab==='attendance'?'active':''}" onclick="switchEventSubTab('attendance')">🏃 เช็คชื่อเวร</button>
+    </div>
+  `;
+  let content = '';
+  if (eventSubTab === 'overview') content = buildOverviewTab(e, paid, total, pct, attCount, attPct, collected, expected);
+  else if (eventSubTab === 'payment') content = buildPaymentTab(e, paid, total, pct, collected, expected);
+  else if (eventSubTab === 'attendance') content = buildAttendanceTab(e, attCount, total, attPct);
+  document.getElementById('event-detail-content').innerHTML = header + subtabs + content;
+}
+
+function buildOverviewTab(e, paid, total, pct, attCount, attPct, collected, expected) {
+  const payoutDone = !!e.payout;
+  const payoutCard = payoutDone ? `
+    <div class="card">
+      <h3>💸 การจ่ายเงินให้ครอบครัว</h3>
+      <div class="summary-row"><span>จำนวนเงิน</span><span class="text-expense">${fmtBaht(e.payout.amount)}</span></div>
+      <div class="summary-row"><span>ผู้รับเงิน</span><span>${escapeHtml(e.payout.recipient||'-')}</span></div>
+      <div class="summary-row"><span>วันที่จ่าย</span><span>${fmtDate(e.payout.date)}</span></div>
+    </div>` : '';
+  const workDaysSummary = e.workDays.map(wd => {
+    const fams = families.filter(f => wd.groupIds.includes(f.groupId) && f.id !== e.deceasedFamilyId);
+    const present = fams.filter(f => e.attendance[f.id]?.present).length;
+    return `<div class="summary-row"><span>📅 วันที่ ${wd.index+1} (${fmtDate(wd.date)}) — กลุ่ม ${wd.groupIds.join(', ')}</span><span>มา ${present}/${fams.length}</span></div>`;
+  }).join('');
+
+  return `
+    <div class="card">
+      <h3>ความคืบหน้า</h3>
+      <div class="progress-label"><span>💰 เก็บเงิน: ${paid}/${total} ครอบครัว</span><span>${pct}%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-label" style="margin-top:12px"><span>🏃 เช็คชื่อเวร: ${attCount}/${total} ครอบครัว</span><span>${attPct}%</span></div>
+      <div class="progress-bar"><div class="progress-fill blue" style="width:${attPct}%"></div></div>
+      <div class="event-stats" style="margin-top:16px">
+        <div class="event-stat"><div class="val">${paid}</div><div class="lbl">ครอบครัวจ่ายเงิน</div></div>
+        <div class="event-stat"><div class="val blue">${attCount}</div><div class="lbl">ครอบครัวเข้าเวร</div></div>
+        <div class="event-stat"><div class="val">${fmtBaht(collected)}</div><div class="lbl">เก็บได้ / เป้า ${fmtBaht(expected)}</div></div>
+      </div>
+    </div>
+    <div class="card"><h3>ตารางเวรรวม</h3>${workDaysSummary || '<div class="empty">ไม่มีตารางเวร</div>'}</div>
+    ${payoutCard}
+  `;
+}
+
+function buildPaymentTab(e, paid, total, pct, collected, expected) {
+  const eligible = eligibleFamiliesForEvent(e);
+  const unpaid = eligible.filter(f => !e.paidFamilyIds.includes(f.id));
+  const payoutDone = !!e.payout;
+  const rate = getEventRatePerMember(e);
+
+  const paidListHtml = paid > 0
+    ? eligible.filter(f => e.paidFamilyIds.includes(f.id)).map(f => {
+        const tx = txns.find(t => t.eventId === e.id && t.familyId === f.id && t.type === 'income');
+        const cnt = getFamilyActiveCount(f.id);
+        return `<div class="family-list-item">
+          <div class="fam-info">
+            <div class="fam-code">${f.code} (กลุ่ม ${f.groupId})</div>
+            <div class="fam-name">${escapeHtml(f.headName)}</div>
+            <div class="fam-detail">${cnt} คน × ${rate} = ${fmtBaht(cnt*rate)}</div>
+          </div>
+          <div class="paid-time">✅ ${tx ? fmtDateTime(tx.createdAt||tx.date) : 'จ่ายแล้ว'}</div>
+        </div>`;
+      }).join('')
+    : '<div class="empty">ยังไม่มี</div>';
+
+  const unpaidListHtml = unpaid.length
+    ? unpaid.map(f => {
+        const cnt = getFamilyActiveCount(f.id);
+        const amt = cnt * rate;
+        return `<div class="family-list-item">
+          <div class="fam-info">
+            <div class="fam-code">${f.code} (กลุ่ม ${f.groupId})</div>
+            <div class="fam-name">${escapeHtml(f.headName)}</div>
+            <div class="fam-detail">${cnt} คน × ${rate} = <strong>${fmtBaht(amt)}</strong></div>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="markFamilyPaidManual('${f.id}')">จ่ายแล้ว</button>
+        </div>`;
+      }).join('')
+    : '<div class="empty">🎉 เก็บเงินครบแล้ว</div>';
+
+  return `
+    <div class="card">
+      <h3>📊 ความคืบหน้าการเก็บเงิน</h3>
+      <div class="progress-label"><span>${paid}/${total} ครอบครัว</span><span>${pct}%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="event-stats">
+        <div class="event-stat"><div class="val">${paid}</div><div class="lbl">จ่ายแล้ว</div></div>
+        <div class="event-stat"><div class="val">${unpaid.length}</div><div class="lbl">ยังไม่จ่าย</div></div>
+        <div class="event-stat"><div class="val">${fmtBaht(collected)}</div><div class="lbl">เก็บได้</div></div>
+        <div class="event-stat"><div class="val">${fmtBaht(expected)}</div><div class="lbl">เป้าหมาย</div></div>
+      </div>
+      <div class="btn-group" style="margin-top:12px">
+        <button class="btn btn-primary btn-lg" onclick="openEventScan('payment')" ${payoutDone?'disabled':''}>📷 สแกนจ่ายเงิน</button>
+        ${!payoutDone
+          ? `<button class="btn btn-danger btn-lg" onclick="openPayoutModal()">💸 จ่ายเงินให้ครอบครัว</button>`
+          : `<button class="btn btn-outline btn-lg" disabled>✅ จ่ายแล้ว (${fmtBaht(e.payout.amount)})</button>`}
+      </div>
+    </div>
+    <div class="card"><h3>⏳ ยังไม่จ่าย (${unpaid.length})</h3>${unpaidListHtml}</div>
+    <div class="card"><h3>✅ จ่ายแล้ว (${paid})</h3>${paidListHtml}</div>
+  `;
+}
+
+function buildAttendanceTab(e, attCount, total, attPct) {
+  const days = e.workDays.map(wd => {
+    const fams = families.filter(f => wd.groupIds.includes(f.groupId) && f.id !== e.deceasedFamilyId);
+    const present = fams.filter(f => e.attendance[f.id]?.present).length;
+    const isToday = wd.date === todayLocal();
+    const headerClass = isToday ? 'workday-header active' : 'workday-header';
+    const rows = fams.length
+      ? fams.map(f => {
+          const isPresent = e.attendance[f.id]?.present;
+          const cnt = getFamilyActiveCount(f.id);
+          return `
+            <div class="workday-attend-row ${isPresent?'present':''}">
+              <div class="fam-block">
+                <div class="name">${escapeHtml(f.headName)}</div>
+                <div class="code">${f.code} · กลุ่ม ${f.groupId} · ${cnt} คน</div>
+              </div>
+              <button class="btn ${isPresent?'btn-primary':'btn-outline'} btn-sm check-btn" onclick="toggleAttendance('${f.id}', ${wd.index})">
+                ${isPresent ? '✅ มาแล้ว' : '⬜ ยังไม่มา'}
+              </button>
+            </div>`;
+        }).join('')
+      : '<div class="empty" style="padding:20px">ไม่มีครอบครัวในกลุ่มนี้</div>';
+    return `
+      <div class="workday-card">
+        <div class="${headerClass}" onclick="toggleWorkDay(${wd.index})">
+          <div>
+            <h4>📅 วันที่ ${wd.index+1} — ${fmtDate(wd.date)} ${isToday?'<span class="badge badge-active">วันนี้</span>':''}</h4>
+            <div class="workday-meta">${wd.groupIds.map(g => `<span class="badge badge-group">กลุ่ม ${g}</span>`).join('')}<span style="margin-left:8px">มา ${present}/${fams.length}</span></div>
+          </div>
+          <span style="font-size:20px;color:var(--text-muted)">▼</span>
+        </div>
+        <div class="workday-body ${isToday?'open':''}" id="wd-body-${wd.index}">${rows}</div>
+      </div>`;
+  }).join('');
+
+  return `
+    <div class="card">
+      <h3>🏃 ภาพรวมการเข้าเวร</h3>
+      <div class="progress-label"><span>${attCount}/${total} ครอบครัว</span><span>${attPct}%</span></div>
+      <div class="progress-bar"><div class="progress-fill blue" style="width:${attPct}%"></div></div>
+      <div class="btn-group" style="margin-top:12px">
+        <button class="btn btn-blue btn-lg" onclick="openEventScan('attendance')">📷 สแกนเช็คชื่อ</button>
+      </div>
+    </div>
+    <div class="card"><h3>ตารางเวรแต่ละวัน</h3>${days}</div>
+  `;
+}
+
+function toggleWorkDay(idx) {
+  const body = document.getElementById('wd-body-' + idx);
+  if (body) body.classList.toggle('open');
+}
+function toggleAttendance(familyId, dayIndex) {
+  const e = getEvent(currentEventId);
+  if (!e) return;
+  const fam = getFamily(familyId);
+  if (!fam) return;
+  if (e.attendance[familyId]?.present) { delete e.attendance[familyId]; toast(`ยกเลิก: ${fam.headName}`, 'info'); }
+  else { e.attendance[familyId] = { present: true, dayIndex, checkedAt: new Date().toISOString() }; toast(`✅ ${fam.headName}`, 'success'); try { navigator.vibrate?.(80); } catch(err){} }
+  persist(); renderEventDetail();
+}
+function deleteEvent(id) {
+  const e = getEvent(id);
+  const evTxns = txns.filter(t => t.eventId === id);
+  let msg = `ลบงานฌาปณกิจของ "${e.deceasedName}"?\n`;
+  if (evTxns.length) msg += `• รายการเงิน ${evTxns.length} รายการจะถูกลบด้วย\n`;
+  msg += '\nยืนยัน?';
+  if (!confirm(msg)) return;
+  events = events.filter(e => e.id !== id);
+  txns = txns.filter(t => t.eventId !== id);
+  persist();
+  if (currentEventId === id) backToEventList();
+  renderAll(); toast('ลบแล้ว');
+}
+
+// ============ MANUAL PAYMENT ============
+function markFamilyPaidManual(familyId) {
+  const e = getEvent(currentEventId);
+  if (!e) return;
+  if (e.paidFamilyIds.includes(familyId)) return toast('จ่ายแล้ว', 'error');
+  const fam = getFamily(familyId);
+  const cnt = getFamilyActiveCount(familyId);
+  const amt = cnt * getEventRatePerMember(e);
+  if (!confirm(`${fam.code} (${fam.headName})\nสมาชิก ${cnt} คน × ${getEventRatePerMember(e)} = ${fmtBaht(amt)}\n\nยืนยันว่าจ่ายแล้ว?`)) return;
+  recordPayment(familyId);
+}
+function recordPayment(familyId, silent) {
+  const e = getEvent(currentEventId);
+  if (!e) return;
+  const fam = getFamily(familyId);
+  if (!fam) return toast('ไม่พบครอบครัว', 'error');
+  if (fam.id === e.deceasedFamilyId) return toast('ครอบครัวผู้เสียชีวิตไม่ต้องจ่าย', 'error');
+  if (e.paidFamilyIds.includes(familyId)) return toast('จ่ายแล้ว', 'error');
+  const cnt = getFamilyActiveCount(familyId);
+  const amount = cnt * getEventRatePerMember(e);
+  e.paidFamilyIds.push(familyId);
+  txns.push({
+    id: uid(), type:'income', eventId: e.id, familyId, amount,
+    memberCount: cnt, ratePerMember: getEventRatePerMember(e),
+    date: todayLocal(), note: `ฌาปณกิจ: ${e.deceasedName} (${cnt} คน)`,
+    createdAt: new Date().toISOString()
+  });
+  persist();
+  if (!silent) toast(`✅ ${fam.headName} (${cnt} คน) +${fmtBaht(amount)}`);
+  renderEventDetail();
+}
+
+// ============ SCANNER ============
+let lastScanned = '', lastScanTime = 0;
+function openEventScan(mode) {
+  const e = getEvent(currentEventId);
+  if (!e) return;
+  activeScanEventId = e.id;
+  activeScanMode = mode || 'payment';
+  const isPayment = mode === 'payment';
+  const eligible = eligibleFamiliesForEvent(e);
+  const done = isPayment ? e.paidFamilyIds.length : Object.values(e.attendance||{}).filter(a=>a.present).length;
+  const title = isPayment ? '📷 สแกนจ่ายเงิน' : '📷 สแกนเช็คชื่อเวร';
+  const hint = isPayment ? `คิดคนละ ${getEventRatePerMember(e)} บาท ตามจำนวนสมาชิก` : 'สแกนเพื่อบันทึกการเข้าเวร';
+  openModal(`
+    <h3>${title} — ${escapeHtml(e.deceasedName)}</h3>
+    <div class="scan-progress">
+      <div class="big" id="scan-counter">${done}/${eligible.length}</div>
+      <div class="sub">${hint}</div>
+    </div>
+    <div class="info-box${isPayment?'':' blue'}">ส่องกล้องที่ QR ในสมุดครอบครัว — บันทึกอัตโนมัติ</div>
+    <div id="qr-reader"></div>
+    <p class="scan-hint">หรือกรอกรหัสครอบครัวด้วยตนเอง</p>
+    <div class="manual-row">
+      <input type="text" id="manual-code" placeholder="เช่น VSM-F-0001" autocomplete="off">
+      <button type="button" class="btn btn-primary" onclick="handleManualCodeEvent()">ค้นหา</button>
+    </div>
+    <div id="recent-scan-container"></div>
+    <div class="form-actions"><button type="button" class="btn btn-outline" onclick="closeModal()">ปิด</button></div>
+  `);
+  document.getElementById('manual-code').addEventListener('keydown', ev => {
+    if (ev.key === 'Enter') { ev.preventDefault(); handleManualCodeEvent(); }
+  });
+  setTimeout(() => {
+    try {
+      scanner = new Html5Qrcode('qr-reader');
+      scanner.start({ facingMode: 'environment' }, { fps: 10, qrbox: { width: 240, height: 240 } },
+        text => handleEventScan(text), () => {}
+      ).catch(err => { console.warn('Camera error:', err); toast('ไม่สามารถเปิดกล้อง — ใช้กรอกรหัสแทน', 'error'); });
+    } catch (err) { console.warn(err); toast('ไม่สามารถเริ่มสแกนเนอร์', 'error'); }
+  }, 150);
+}
+function handleManualCodeEvent() {
+  const input = document.getElementById('manual-code');
+  if (!input) return;
+  const code = input.value.trim().toUpperCase();
+  if (!code) return;
+  handleEventScan(code);
+  input.value = '';
+}
+function handleEventScan(text) {
+  const e = getEvent(activeScanEventId);
+  if (!e) return;
+  const now = Date.now();
+  const norm = String(text).trim().toUpperCase();
+  if (norm === lastScanned && now - lastScanTime < 2000) return;
+  lastScanned = norm; lastScanTime = now;
+
+  const fam = families.find(f => (f.code||'').toUpperCase() === norm);
+  if (!fam) { toast(`ไม่พบรหัส ${norm}`, 'error'); return; }
+  if (fam.id === e.deceasedFamilyId) { toast('ครอบครัวผู้เสียชีวิตไม่ต้องจ่าย/เข้าเวร', 'error'); return; }
+
+  let message = '';
+  if (activeScanMode === 'payment') {
+    if (e.paidFamilyIds.includes(fam.id)) { toast(`${fam.headName} จ่ายแล้ว`, 'info'); return; }
+    const cnt = getFamilyActiveCount(fam.id);
+    if (cnt === 0) { toast(`${fam.headName} ไม่มีสมาชิกที่ยังมีชีวิต`, 'error'); return; }
+    const amt = cnt * getEventRatePerMember(e);
+    recordPayment(fam.id, true);
+    message = `✅ ${fam.headName} (${cnt} คน) +${fmtBaht(amt)}`;
+  } else {
+    if (e.attendance[fam.id]?.present) { toast(`${fam.headName} เช็คชื่อแล้ว`, 'info'); return; }
+    const todayWorkDay = e.workDays.find(wd => wd.date === todayLocal());
+    const dayIndex = todayWorkDay ? todayWorkDay.index : 0;
+    e.attendance[fam.id] = { present: true, dayIndex, checkedAt: new Date().toISOString() };
+    persist();
+    message = `✅ ${fam.headName} มาเข้าเวร`;
+    renderEventDetail();
+  }
+  const doneCount = activeScanMode === 'payment' ? e.paidFamilyIds.length : Object.values(e.attendance||{}).filter(a=>a.present).length;
+  const total = eligibleFamiliesForEvent(e).length;
+  const counterEl = document.getElementById('scan-counter');
+  if (counterEl) counterEl.textContent = `${doneCount}/${total}`;
+  const rc = document.getElementById('recent-scan-container');
+  if (rc) rc.innerHTML = `<div class="recent-scan">${message}</div>`;
+  try { navigator.vibrate?.(100); } catch(err){}
+  toast(message);
+  if (doneCount >= total) {
+    setTimeout(() => {
+      stopScanner(); modalOverlay.classList.remove('active');
+      toast(activeScanMode === 'payment' ? '🎉 เก็บเงินครบแล้ว' : '🎉 เช็คชื่อครบแล้ว', 'success');
+    }, 800);
+  }
+}
+
+// ============ PAYOUT ============
+function openPayoutModal() {
+  const e = getEvent(currentEventId);
+  if (!e) return;
+  if (e.payout) return toast('จ่ายแล้ว', 'error');
+  const fam = getFamily(e.deceasedFamilyId);
+  const collected = calculateTotalCollected(e);
+  openModal(`
+    <h3>💸 จ่ายเงินให้ครอบครัวผู้เสียชีวิต</h3>
+    <div class="info-box warn">เก็บได้ <strong>${fmtBaht(collected)}</strong> จาก ${e.paidFamilyIds.length} ครอบครัว</div>
+    <form id="payout-form">
+      <div class="form-group"><label>จำนวนเงิน (บาท) *</label><input type="number" name="amount" value="${e.payoutAmount}" min="0" step="1" required></div>
+      <div class="form-group"><label>ผู้รับเงิน / ทายาท *</label><input type="text" name="recipient" value="${escapeHtml(fam?.headName||'')}" required></div>
+      <div class="form-group"><label>วันที่จ่าย *</label><input type="date" name="date" value="${todayLocal()}" required></div>
+      <div class="form-group"><label>หมายเหตุ</label><input type="text" name="note" value="เงินช่วยเหลือฌาปนกิจ"></div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-outline" onclick="closeModal()">ยกเลิก</button>
+        <button type="submit" class="btn btn-danger">ยืนยันการจ่ายเงิน</button>
+      </div>
+    </form>
+  `);
+  document.getElementById('payout-form').addEventListener('submit', ev => {
+    ev.preventDefault();
+    const f = ev.target;
+    const amount = parseFloat(f.amount.value);
+    const recipient = f.recipient.value.trim();
+    const date = f.date.value;
+    const note = f.note.value.trim();
+    if (!(amount >= 0)) return toast('จำนวนเงินไม่ถูกต้อง', 'error');
+    if (!recipient) return toast('กรุณากรอกชื่อผู้รับ', 'error');
+    if (!date) return toast('กรุณาเลือกวันที่', 'error');
+    const txnId = uid();
+    txns.push({ id: txnId, type:'expense', eventId: e.id, familyId: e.deceasedFamilyId, amount, date, note, recipient, createdAt: new Date().toISOString() });
+    e.payout = { amount, date, recipient, note, txnId };
+    e.status = 'completed';
+    persist(); closeModal();
+    toast('✅ บันทึกการจ่ายเงินแล้ว');
+    renderEventDetail(); renderDashboard();
+  });
+}
+
+// ============ DASHBOARD ============
+function renderDashboard() {
+  const cm = currentMonth();
+  const monthIncome = txns.filter(t => t.type==='income' && t.date.startsWith(cm)).reduce((s,t)=>s+t.amount,0);
+  const monthExpense = txns.filter(t => t.type==='expense' && t.date.startsWith(cm)).reduce((s,t)=>s+t.amount,0);
+  document.getElementById('stat-families').textContent = families.length;
+  document.getElementById('stat-balance').textContent = fmtBaht(balance());
+  document.getElementById('stat-income').textContent = fmtBaht(monthIncome);
+  document.getElementById('stat-expense').textContent = fmtBaht(monthExpense);
+
+  const activeEvents = events.filter(e => e.status === 'collecting');
+  const card = document.getElementById('active-events-card');
+  const listEl = document.getElementById('active-events-list');
+  if (activeEvents.length) {
+    card.style.display = 'block';
+    listEl.innerHTML = activeEvents.map(e => {
+      ensureEventWorkDays(e);
+      const eligible = eligibleFamiliesForEvent(e);
+      const paid = e.paidFamilyIds.length;
+      const total = eligible.length;
+      const payPct = total ? Math.round((paid/total)*100) : 0;
+      const attCount = Object.values(e.attendance||{}).filter(a => a.present).length;
+      const attPct = total ? Math.round((attCount/total)*100) : 0;
+      const collected = calculateTotalCollected(e);
+      const expected = calculateTotalExpected(e);
+      return `
+        <div style="padding:12px;border:1px solid var(--border);border-radius:8px;margin-bottom:8px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap">
+            <div>
+              <strong>🕊️ ${escapeHtml(e.deceasedName)}</strong>
+              <div style="font-size:13px;color:var(--text-muted)">เสียชีวิต ${fmtDate(e.deathDate)} · ${e.workDays.length} วัน · ครอบครัว ${familyDisplay(e.deceasedFamilyId)}</div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="navigateToEvent('${e.id}')">จัดการ →</button>
+          </div>
+          <div class="progress-label" style="margin-top:8px"><span>💰 ${paid}/${total} · ${fmtBaht(collected)}/${fmtBaht(expected)}</span><span>${payPct}%</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${payPct}%"></div></div>
+          <div class="progress-label" style="margin-top:6px"><span>🏃 ${attCount}/${total}</span><span>${attPct}%</span></div>
+          <div class="progress-bar"><div class="progress-fill blue" style="width:${attPct}%"></div></div>
+        </div>`;
+    }).join('');
+  } else card.style.display = 'none';
+
+  const recent = [...txns].sort((a,b) => (b.createdAt||b.date).localeCompare(a.createdAt||a.date)).slice(0,10);
+  const rows = recent.length
+    ? recent.map(t => {
+        const sign = t.type === 'income' ? '+' : '-';
+        const cls = t.type === 'income' ? 'text-income' : 'text-expense';
+        const badge = t.type === 'income' ? '<span class="badge badge-income">รับเงิน</span>' : '<span class="badge badge-expense">จ่ายเงิน</span>';
+        const who = t.familyId ? familyDisplay(t.familyId) : '-';
+        return `<tr><td>${fmtDate(t.date)}</td><td>${badge}</td><td>${who}</td><td class="${cls}">${sign}${fmtBaht(t.amount)}</td><td>${escapeHtml(t.note||'-')}</td></tr>`;
+      }).join('')
+    : '<tr><td colspan="5" class="empty">ยังไม่มีรายการ</td></tr>';
+  document.getElementById('recent-txns').innerHTML =
+    `<thead><tr><th>วันที่</th><th>ประเภท</th><th>ครอบครัว</th><th>จำนวนเงิน</th><th>หมายเหตุ</th></tr></thead><tbody>${rows}</tbody>`;
+}
+
+// ============ REPORTS ============
+function renderReports() {
+  const month = document.getElementById('report-month').value || currentMonth();
+  document.getElementById('report-month').value = month;
+  const incomes = txns.filter(t => t.type==='income' && t.date.startsWith(month));
+  const expenses = txns.filter(t => t.type==='expense' && t.date.startsWith(month));
+  const income = incomes.reduce((s,t)=>s+t.amount,0);
+  const expense = expenses.reduce((s,t)=>s+t.amount,0);
+  const net = income - expense;
+  document.getElementById('report-summary').innerHTML = `
+    <div class="summary-row"><span>ประจำเดือน</span><span>${fmtMonth(month)}</span></div>
+    <div class="summary-row"><span>รายรับ (${incomes.length} รายการ)</span><span class="text-income">+${fmtBaht(income)}</span></div>
+    <div class="summary-row"><span>รายจ่าย (${expenses.length} รายการ)</span><span class="text-expense">-${fmtBaht(expense)}</span></div>
+    <div class="summary-row"><span>คงเหลือสุทธิ</span><span style="color:${net>=0?'var(--primary-dark)':'var(--danger)'}">${net>=0?'+':''}${fmtBaht(net)}</span></div>
+    <div class="summary-row"><span>เงินกองทุนรวม</span><span>${fmtBaht(balance())}</span></div>
+  `;
+  const all = [...txns].filter(t => t.date.startsWith(month)).sort((a,b) => b.date.localeCompare(a.date));
+  const rows = all.length
+    ? all.map(t => {
+        const cls = t.type === 'income' ? 'text-income' : 'text-expense';
+        const sign = t.type === 'income' ? '+' : '-';
+        const who = t.familyId ? familyDisplay(t.familyId) : '-';
+        const detail = t.memberCount ? ` (${t.memberCount} คน × ${t.ratePerMember})` : '';
+        return `<tr><td>${fmtDate(t.date)}</td><td>${who}</td><td class="${cls}">${sign}${fmtBaht(t.amount)}</td><td>${escapeHtml((t.note||'')+detail)}</td></tr>`;
+      }).join('')
+    : '<tr><td colspan="4" class="empty">ไม่มีรายการ</td></tr>';
+  document.getElementById('report-detail').innerHTML =
+    `<thead><tr><th>วันที่</th><th>ครอบครัว</th><th>จำนวนเงิน</th><th>หมายเหตุ</th></tr></thead><tbody>${rows}</tbody>`;
+}
+document.getElementById('report-month').addEventListener('change', renderReports);
+
+// ============ CSV ============
+function exportCSV() {
+  const headers = ['วันที่','ประเภท','รหัสครอบครัว','หัวหน้าครัวเรือน','กลุ่ม','จำนวนสมาชิก','อัตรา/คน','จำนวนเงิน','หมายเหตุ'];
+  const rows = [...txns].sort((a,b) => a.date.localeCompare(b.date)).map(t => {
+    const f = getFamily(t.familyId);
+    return [t.date, t.type==='income'?'รับเงิน':'จ่ายเงิน', f?.code||'', f?.headName||'', f?.groupId||'', t.memberCount||'', t.ratePerMember||'', t.amount, t.note||''];
+  });
+  const csv = '\ufeff' + [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = `รายงานกองทุน-${todayLocal()}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+  toast('ส่งออก CSV สำเร็จ');
+}
+
+// ============ SETTINGS ============
+document.getElementById('settings-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const f = e.target;
+  const oldGC = settings.groupCount;
+  settings.fundName = f.fundName.value.trim() || 'หมู่บ้านทรัพย์สมบูรณ์';
+  settings.amountPerMember = parseFloat(f.amountPerMember.value) || 20;
+  settings.payoutAmount = parseFloat(f.payoutAmount.value) || 0;
+  settings.groupCount = Math.max(1, parseInt(f.groupCount.value) || 15);
+  settings.defaultWorkDays = Math.max(1, parseInt(f.defaultWorkDays.value) || 3);
+  if (settings.groupCount < oldGC) families.forEach(fam => { if (fam.groupId > settings.groupCount) fam.groupId = settings.groupCount; });
+  persist();
+  document.querySelector('.header h1').textContent = `กองทุนฌาปณกิจ ${settings.fundName}`;
+  toast('บันทึกสำเร็จ'); renderAll();
+});
+function loadSettingsIntoForm() {
+  const f = document.getElementById('settings-form');
+  f.fundName.value = settings.fundName;
+  f.amountPerMember.value = settings.amountPerMember;
+  f.payoutAmount.value = settings.payoutAmount;
+  f.groupCount.value = settings.groupCount;
+  f.defaultWorkDays.value = settings.defaultWorkDays;
+}
+
+// ============ SEED / RESET ============
+function seedData() {
+  if (!confirm('เพิ่มข้อมูลตัวอย่าง?')) return;
+  const names = ['นายสมชาย ใจดี','นางสมศรี รักบ้าน','นายวิชัย ตั้งใจ','นางสาวมาลี ศรีสุข','นายประเสริฐ มั่นคง','นางบุญมี ทองดี','นายทวี ศรีสมบัติ','นางอรุณ สว่างใจ'];
+  let num = nextFamilyNumber();
+  names.forEach(headName => {
+    const code = `VSM-F-${String(num).padStart(4,'0')}`; num++;
+    const fam = { id: uid(), code, headName, groupId: suggestNextGroupId(), address:'หมู่ 3 ต.ทรัพย์สมบูรณ์', phone:'08' + Math.floor(10000000 + Math.random()*89999999), createdAt: todayLocal() };
+    families.push(fam);
+    const memCount = 1 + Math.floor(Math.random()*4);
+    for (let j = 0; j < memCount; j++) {
+      members.push({ id: uid(), familyId: fam.id, name: j === 0 ? headName : `${headName.split(' ')[0]}-${j+1}`, status: 'active', createdAt: todayLocal() });
+    }
+  });
+  persist(); renderAll();
+  toast('โหลดข้อมูลตัวอย่างสำเร็จ');
+}
+function resetData() {
+  if (!confirm('ล้างข้อมูลทั้งหมด?')) return;
+  if (!confirm('ยืนยันอีกครั้ง')) return;
+  families = []; members = []; events = []; txns = [];
+  persist(); renderAll();
+  toast('ล้างแล้ว');
+}
+
+// ============ MASTER RENDER ============
+function renderAll() {
+  renderDashboard();
+  renderFamilies();
+  renderMembers();
+  renderEvents();
+  renderGroups();
+  renderReports();
+}
+
+// ============ INIT ============
+function init() {
+  families.forEach(f => { if (!f.groupId) f.groupId = suggestNextGroupId(); });
+  persist();
+  document.getElementById('report-month').value = currentMonth();
+  document.querySelector('.header h1').textContent = `กองทุนฌาปณกิจ ${settings.fundName}`;
+  document.getElementById('search-family').addEventListener('input', renderFamilies);
+  document.getElementById('search-member').addEventListener('input', renderMembers);
+  loadSettingsIntoForm();
+  renderAll();
+}
+init();
+</script>
+</body>
+</html>
